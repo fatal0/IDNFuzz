@@ -13,7 +13,7 @@ t = setInterval($=>{
 
 if(i < urls.length){
     
-    chrome.tabs.create({"url": "http://" + urls[i] + "###" + urls[i]});
+    chrome.tabs.create({"url": "http://" + urls[i]});
 
     i++;
 
@@ -42,10 +42,11 @@ document.addEventListener("DOMContentLoaded", function() {
    
    if (tab.status === "complete") {
       
-        if(tab.url.lastIndexOf("###") !== -1){
+        if(tab.url.startsWith("chrome") === false){
            
-           if(tab.title === tab.url.substring(tab.url.lastIndexOf("###")+3)) {
-             log.append(tab.title + "\n");
+           if(tab.title.startsWith("xn--") === false) {
+             log.append(tab.url + "------" + tab.title + "\n");
+             localStorage.setItem(tab.url, tab.title);
            }
         
            chrome.tabs.remove(tabId);
@@ -55,6 +56,5 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 });
-
 
 
